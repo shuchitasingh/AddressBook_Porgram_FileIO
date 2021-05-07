@@ -3,7 +3,6 @@ package com.bridgelabz;
 import java.util.Objects;
 import java.util.Scanner;
 
-class Book {
     static class Entry {
         private final String firstName;
         private final String lastName;
