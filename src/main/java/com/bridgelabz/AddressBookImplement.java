@@ -4,11 +4,16 @@ import java.util.*;
 
 
 public class AddressBookImplement implements MultipleAddressBook {
-        public Map<String, ArrayList<AddressBook>> book;
+
+        public enum IOService{CONSOLE_IO,FILE_IO,DB_IO,REST_IO}
+
+        public Map<String, AddressBook> book;
         public Map<String, ArrayList<AddressBook>> multibook;
         public Map<String, ArrayList<AddressBook>> city;
         public Map<String, ArrayList<AddressBook>> state;
+        public Map<Integer, ArrayList<AddressBook>> zip;
         public ArrayList<AddressBook> entries;
+        public int count = 0;
         Scanner obj = new Scanner(System.in);
 
         // Constructor
@@ -17,53 +22,59 @@ public class AddressBookImplement implements MultipleAddressBook {
                 multibook = new HashMap<>();
                 city = new HashMap<>();
                 state = new HashMap<>();
+                zip = new HashMap<>();
                 entries = new ArrayList<>();
         }
 
+
         @Override
-        public void addAddressBook(String BookName, String FirstName, String LastName, String Address, String City, int Zip,
-                                   String State, long PhoneNumber, String Email) {
-                AddressBook adder = new AddressBook(BookName, FirstName, LastName, Address, City, Zip, State, PhoneNumber, Email);
+        public void addAddressBook(String bookName, String firstName, String lastName, String address, String city, int zip,
+                                   String state, long phoneNumber, String email) {
+                AddressBook adder = new AddressBook(bookName, firstName, lastName, address, city, zip, state, phoneNumber, email);
                 entries.add(adder);
-                book.put(FirstName, entries);
-                multibook.put(BookName, entries);
-                city.put(City, entries);
-                state.put(State, entries);
+                book.put(firstName, adder);
+                multibook.put(bookName, entries);
+                this.city.put(city, entries);
+                this.state.put(state, entries);
+                this.zip.put(zip, entries);
+                count++;
         }
 
         //This method takes console arguments
         @Override
         public void getContact() {
                 System.out.println("Enter Address Book Name");
-                String BookName = obj.next();
+                String bookName = obj.next();
                 System.out.println("Enter you first name");
-                String FirstName = obj.next();
-                System.out.println("Enter you last name");
-                String LastName = obj.next();
-                obj.nextLine();
-                System.out.println("Enter you Address name");
-                String Address = obj.nextLine();
-                System.out.println("Enter you zip ");
-                int Zip = obj.nextInt();
-                System.out.println("Enter you city name");
-                String City = obj.next();
-                System.out.println("Enter you state name");
-                String State = obj.next();
-                obj.nextLine();
-                System.out.println("Enter you phone number");
-                long PhoneNumber = obj.nextLong();
-                obj.nextLine();
-                System.out.println("Enter you email name");
-                String Email = obj.nextLine();
-                if (equals(FirstName))
-                        addAddressBook(BookName, FirstName, LastName, Address, City, Zip, State, PhoneNumber, Email);
+                String firstName = obj.next();
+
+                if (equals(firstName)) {
+                        System.out.println("Enter you last name");
+                        String lastName = obj.next();
+                        obj.nextLine();
+                        System.out.println("Enter you Address name");
+                        String address = obj.nextLine();
+                        System.out.println("Enter you zip ");
+                        int zip = obj.nextInt();
+                        System.out.println("Enter you city name");
+                        String city = obj.next();
+                        System.out.println("Enter you state name");
+                        String state = obj.next();
+                        obj.nextLine();
+                        System.out.println("Enter you phone number");
+                        long phoneNumber = obj.nextLong();
+                        obj.nextLine();
+                        System.out.println("Enter you email name");
+                        String email = obj.nextLine();
+                        addAddressBook(bookName, firstName, lastName, address, city, zip, state, phoneNumber, email);
+                }
                 else
                         System.out.println("the Name already exist in contact please use different name");
         }
 
         @Override
         public boolean equals(String firstName) {
-                List<AddressBook> details = book.get(firstName);
+                AddressBook details = book.get(firstName);
                 if (details == null) return true;
                 return false;
         }
@@ -77,7 +88,7 @@ public class AddressBookImplement implements MultipleAddressBook {
                 System.out.println("enter your name");
                 String name = obj.next();
                 for (AddressBook details : option) {
-                        if (details.FirstName.equals(name)) {
+                        if (details.firstName.equals(name)) {
                                 boolean conditon = true;
                                 while (conditon) {
                                         System.out.println("enter number  1:first_name 2:last_name 3:address 4:City 5:zip 6:state 7:phone_number" +
@@ -87,50 +98,50 @@ public class AddressBookImplement implements MultipleAddressBook {
                                                 case 1:
                                                         System.out.println("Enter you first name");
                                                         String firstname = obj.next();
-                                                        details.FirstName = firstname;
+                                                        details.firstName = firstname;
                                                         System.out.println(book);
                                                         break;
                                                 case 2:
                                                         System.out.println("Enter you last name");
                                                         String lastname = obj.next();
-                                                        details.FirstName = lastname;
+                                                        details.firstName = lastname;
                                                         System.out.println(book);
                                                         break;
                                                 case 3:
                                                         System.out.println("Enter you address ");
                                                         String addressname = obj.next();
-                                                        details.Address = addressname;
+                                                        details.address = addressname;
                                                         System.out.println(book);
                                                         break;
                                                 case 4:
                                                         System.out.println("Enter you City name");
                                                         String cityname = obj.next();
-                                                        details.City = cityname;
+                                                        details.city = cityname;
                                                         System.out.println(book);
                                                         break;
                                                 case 5:
                                                         System.out.println("Enter you Zip name");
                                                         int zipname = obj.nextInt();
-                                                        details.Zip = zipname;
+                                                        details.zip = zipname;
                                                         System.out.println(book);
                                                         break;
                                                 case 6:
                                                         System.out.println("Enter you State name");
                                                         String statename = obj.next();
-                                                        details.State = statename;
+                                                        details.state = statename;
                                                         System.out.println(book);
                                                         break;
                                                 case 7:
                                                         System.out.println("Enter you Phone number");
                                                         long phonenumber = obj.nextLong();
                                                         obj.nextLine();
-                                                        details.PhoneNumber = phonenumber;
+                                                        details.phoneNumber = phonenumber;
                                                         System.out.println(book);
                                                         break;
                                                 case 8:
                                                         System.out.println("Enter you email");
                                                         String emailname = obj.next();
-                                                        details.Email = emailname;
+                                                        details.email = emailname;
                                                         System.out.println(book);
                                                         break;
                                                 case 0:
@@ -149,13 +160,18 @@ public class AddressBookImplement implements MultipleAddressBook {
         public void deleteEntry() {
                 System.out.println("enter your name to delete from contact");
                 String name = obj.next();
-                book.remove(name);
+                AddressBook a = book.get(name);
+                if(equals(a)) {
+                        System.out.println("Entry Not Exist");
+                }
+                else
+                        book.remove(a);
         }
 
         // This method helps user to choose action
-        public boolean makechoice() {
-                System.out.println("enter 1:add_contact 2:view_by_city 3-view_by_state 4:edit_contact 5:delete_contact" +
-                        " 6:person_by_city_or_state or 0 to quit");
+        public boolean makeChoice() {
+                System.out.println("enter 1:add_contact \n2:view_by_city \n3-view_by_state \n4:edit_contact \n5:delete_contact" +
+                        " \n6:person_by_city_or_state \n7:get_count_of_person \n8:sort_alphabetically \n9:sort_viaCityStateZip \n10: Write address in system file \n11: Read address in system file or 0 to quit");
                 int check = obj.nextInt();
                 boolean conditon = true;
                 switch (check) {
@@ -177,6 +193,20 @@ public class AddressBookImplement implements MultipleAddressBook {
                         case 6:
                                 getContactByCityOrState();
                                 break;
+                        case 7:
+                                getCountOfPersons();
+                                break;
+                        case 8:
+                                sortAlphabetically();
+                                break;
+                        case 9:
+                                sortCityStateOrZip();
+                                break;
+                        case 10:
+                                writeAddressBookInFiles(IOService.FILE_IO);
+                                break;
+                        case 11:
+                                readAddressBookInFiles(IOService.FILE_IO);                break;
                         case 0:
                                 conditon = false;
                                 break;
@@ -186,48 +216,91 @@ public class AddressBookImplement implements MultipleAddressBook {
                 return conditon;
         }
 
+        private void getCountOfPersons() {
+                System.out.println("total count is " + count);
+        }
+
         public void viewPersonByCity() {
+//        Set<String> keys = multibook.keySet();
+//        System.out.println(keys);
+//        String bookName = obj.next();
+//        System.out.println(multibook.get(bookName));
+
                 System.out.println("Enter city");
                 String location = obj.next();
                 obj.nextLine();
-                int flag = 1;
-                for (String entry : city.keySet()) {
-                        if (entry.equals(location)) System.out.println(entry);
-                        flag = 0;
-                }
-                if (flag == 1) System.out.println("no records found");
+                List exit = city.get(location);
+                if (exit != null)
+                        System.out.println(city.get(location));
+                else
+                        System.out.println("no records found");
         }
 
         public void viewPersonByState() {
                 System.out.println("Enter state");
                 String location = obj.next();
                 obj.nextLine();
-                int flag = 1;
-                for (String entry : state.keySet()) {
-                        if (entry.equals(location)) System.out.println(entry);
-                        flag = 0;
-                }
-                if (flag == 1) System.out.println("no records found");
+                List exit = state.get(location);
+                if (exit != null)
+                        System.out.println(state.get(location));
+                else
+                        System.out.println("no records found");
         }
 
         public void getContactByCityOrState() {
                 System.out.println("Enter city or state");
                 String location = obj.next();
                 obj.nextLine();
-                int flag = 1;
-                for (String entry : multibook.keySet()) {
-                        for (AddressBook item : multibook.get(entry)) {
-                                if (item.State.equals(location) || item.City.equals(location)) {
-                                        System.out.println(item);
-                                        flag = 0;
-                                }
-                        }
-                }
-                if (flag == 1) System.out.println("no records found");
+                List check1 = state.get(location);
+                List check2 = city.get(location);
+                if (check1 != null)
+                        System.out.println(state.get(location));
+                else if (check2 != null)
+                        System.out.println(city.get(location));
+                else
+                        System.out.println("no records found");
         }
+
         public void sortAlphabetically() {
-                book.entrySet().stream().
-                        sorted(Map.Entry.comparingByKey())
+                book.entrySet().stream()
+                        .sorted(Map.Entry.comparingByKey())
                         .forEach(System.out::println);
         }
+
+        public void sortCityStateOrZip() {
+                System.out.println("sort by 1:city 2:state 3:zip");
+                int check = obj.nextInt();
+                switch (check) {
+                        case 1:
+                                city.entrySet().stream()
+                                        .sorted(Map.Entry.comparingByKey())
+                                        .forEach(System.out::println);
+                                break;
+                        case 2:
+                                state.entrySet().stream()
+                                        .sorted(Map.Entry.comparingByKey())
+                                        .forEach(System.out::println);
+                                break;
+                        case 3:
+                                zip.entrySet().stream()
+                                        .sorted(Map.Entry.comparingByKey())
+                                        .forEach(System.out::println);
+                                break;
+                }
+        }
+
+        public void writeAddressBookInFiles(IOService ioService){
+                if (ioService.equals(IOService.FILE_IO)) {
+                        new AdressBookFileIO().writeData(entries);
+                        System.out.println("Data stored successfully in /IdeaProjects/AddressBook/AddressBook.txt");
+                }
+        }
+
+        public void readAddressBookInFiles(IOService ioService){
+                if (ioService.equals(IOService.FILE_IO)) {
+                        new AdressBookFileIO().readData();
+                        System.out.println("Data Read successfully From /IdeaProjects/AddressBook/AddressBook.txt");
+                }
+        }
+
 }
