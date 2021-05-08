@@ -6,10 +6,9 @@ import java.util.stream.Collectors;
 public class AddressBook {
     //Declaring HasMap to store all contact details
     HashMap<String, ContactDetails> contactList = new HashMap<String, ContactDetails>();
-    List<ContactDetails> valueList=new ArrayList<ContactDetails>(contactList.values());
     Scanner scanner = new Scanner(System.in);
-    public ContactDetails getDetailsFromUser()
-    {
+
+    public ContactDetails getDetailsFromUser() {
         System.out.println("Enter first name : ");
         String fName = scanner.next();
         System.out.println("Enter last name : ");
@@ -37,16 +36,17 @@ public class AddressBook {
         contactDetails.setState(state);
         return contactDetails;
     }
+
     public void addNewContact() {
         ContactDetails contactDetails = getDetailsFromUser();
         contactList.put(contactDetails.getEmailId(), contactDetails);
     }
-    public void updateContactDetail(){
+
+    public void updateContactDetail() {
         System.out.println("Enter email id too update : ");
         String email = scanner.next();
         ContactDetails contactDetails = contactList.get(email);
-        if(!contactList.containsKey(email))
-        {
+        if (!contactList.containsKey(email)) {
             System.out.println("Invalid email id");
             updateContactDetail();
         }
@@ -60,7 +60,7 @@ public class AddressBook {
                 "7 : For state");
         int selectOption = scanner.nextInt();
 
-        switch (selectOption){
+        switch (selectOption) {
             case 1:
                 System.out.println("Enter the first name : ");
                 String fName = scanner.next();
@@ -71,7 +71,8 @@ public class AddressBook {
                 String lName = scanner.next();
                 contactDetails.setlName(lName);
                 break;
-            case 3:System.out.println("Enter phone number : ");
+            case 3:
+                System.out.println("Enter phone number : ");
                 String phone = scanner.next();
                 contactDetails.setPhoneNumber(phone);
                 break;
@@ -101,12 +102,10 @@ public class AddressBook {
         }
     }
 
-    public void deleteContact()
-    {
+    public void deleteContact() {
         System.out.println("Enter the email id to delete : ");
         String email = scanner.next();
-        if (!contactList.containsKey(email))
-        {
+        if (!contactList.containsKey(email)) {
             System.out.println("Please provide valid email id");
             deleteContact();
         }
@@ -115,40 +114,53 @@ public class AddressBook {
 
     //This method is used to print the contact details
     public void printAllDetails() {
-        for (ContactDetails allContacts : contactList.values()) {
-            System.out.println(allContacts);
+        System.out.println(contactList);
+    }
+
+    public void searchByCityorState() {
+
+        System.out.println("Enter city name : ");
+        String city = scanner.next();
+        System.out.println("Enter state name : ");
+        String state = scanner.next();
+        System.out.println("Iterate over HashMap Keys and Values");
+
+        for (ContactDetails i : contactList.values()) {
+            System.out.println(i);
+            if (i.getCity() == city || i.getState() == state) {
+                System.out.println("from condition" + i);
+            } else {
+                System.out.println("value not fount");
+            }
         }
     }
 
-
     // This function will be used to ask the user choice
-    public void getUserChoice()
-    {       boolean isTerminate = false;
-        while (!isTerminate){
-
+    public void getUserChoice() {
+        boolean isTerminate = false;
+        while (!isTerminate) {
             System.out.println("1: For add new contact \n" +
                     "2: For update existing contact \n" +
                     "3: For print contact list \n" +
                     "4: For delete contact \n" +
                     "5: For search by city name or state : \n" +
-                    "6: For count number of address belong to same city or state \n" +
-                    "7: For sort by first name \n" +
-                    "8: For sort by state \n" +
-                    "9: For sort by city \n" +
-                    "10: For sort by zipCode" +
                     "0: For terminate the program");
             int selectedOption = scanner.nextInt();
-            switch (selectedOption){
+            switch (selectedOption) {
                 case 1:
                     addNewContact();
                     break;
-                case 2:updateContactDetail();
+                case 2:
+                    updateContactDetail();
                     break;
                 case 3:
                     printAllDetails();
                     break;
                 case 4:
                     deleteContact();
+                    break;
+                case 5:
+                    searchByCityorState();
                     break;
                 case 0:
                     isTerminate = true;
